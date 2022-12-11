@@ -69,7 +69,6 @@ file.on('close', () => {
       }
     })
   }
-  const numbersOfInspections = monkeys.map(monkey => monkey.numberOfInspections).sort((a, b) => Math.sign(b - a))
-  console.log(numbersOfInspections)
-  console.log(numbersOfInspections[0] * numbersOfInspections[1])
+  const [largest, secondLargest] = monkeys.map(monkey => monkey.numberOfInspections).sort((a, b) => Math.sign(b - a))
+  console.log('Part 2: two largest numbers of inspections:', largest * secondLargest)
 })

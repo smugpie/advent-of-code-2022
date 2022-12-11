@@ -33,16 +33,10 @@ file.on('line', (line) => {
 
     if (mode === 'moveStacks') {
         const [ , num, , from, , to] = line.split(' ')
-        const holding = []
         for (let i = 1; i <= num; i += 1) {
             const item = stacks[from].pop()
-            holding.push(item)
-        }
-        for (let i = 1; i <= num; i += 1) {
-            const item = holding.pop()
             stacks[to].push(item)
         }
-        
     }
 })
 
@@ -51,5 +45,5 @@ file.on('close', () => {
     stacks.forEach(item => {
         finalString.push(item.pop())
     })
-    console.log(finalString.join(''))
+    console.log('Part 1: top crates in each stack =', finalString.join(''))
 })

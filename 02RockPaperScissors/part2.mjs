@@ -8,9 +8,9 @@ const opponentChoices = {
 }
 
 const outcomes = {
-    X: 0, //lose
-    Y: 3, //draw
-    Z: 6 // win
+    X: 0, // lose
+    Y: 3, // draw
+    Z: 6  // win
 }
 
 let scores = 0
@@ -24,15 +24,12 @@ const getElfChoice = function(opponentChoice, outcome) {
     if (outcome === 3) {  //draw
         return opponentChoice
     }
-    
     if (opponentChoice === 'rock') {
         return outcome === 6 ? 'paper' : 'scissors'
     }
-
     if (opponentChoice === 'paper') {
         return outcome === 6 ? 'scissors' : 'rock'
     }
-
     if (opponentChoice === 'scissors') {
         return outcome === 6 ? 'rock' : 'paper'
     }
@@ -40,19 +37,15 @@ const getElfChoice = function(opponentChoice, outcome) {
 
 var file = readline.createInterface({
     input: fs.createReadStream('./input.txt')
-  });
+});
 
-file.on('line', (match) => {
-    if (match === '') {
-        return
-    }
-
-    const [opponentCode, elfCode] = match.split(' ')
+file.on('line', (game) => {
+    const [opponentCode, elfCode] = game.split(' ')
     const opponentChoice = opponentChoices[opponentCode]
     const outcome = outcomes[elfCode]
     scores += getChoiceScore(getElfChoice(opponentChoice, outcome)) + outcome
 })
 
 file.on('close', () => {
-    console.log('Final scores', scores)
+    console.log('Part 2: final scores =', scores)
 })

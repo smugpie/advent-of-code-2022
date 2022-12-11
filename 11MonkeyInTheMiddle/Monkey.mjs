@@ -23,7 +23,6 @@ export default class Monkey {
             }
             return old * (+this.operand)
         }
-        this.numberOfInspections += 1
     }
 
     performTest(num) {
