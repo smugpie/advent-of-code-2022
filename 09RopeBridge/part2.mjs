@@ -5,7 +5,7 @@ var file = readline.createInterface({
     input: fs.createReadStream('./input.txt')
   });
 
-
+  let grid = [["#"]]
 const ropePositions = []
 for (let i = 0; i < 10; i += 1) {
   ropePositions.push([0, 0])
@@ -33,11 +33,6 @@ const markOnGrid = function() {
 }
 
 const updateTailPos = function(prev, next) {
-  // touching? do nothing
-  if (prev[0] === next[0] && prev[1] === next[1]) {
-    return
-  }
-
   const diffY = next[0] - prev[0]
   const diffX = next[1] - prev[1]
   // just one away? do nothing
@@ -49,41 +44,34 @@ const updateTailPos = function(prev, next) {
   next[1] = next[1] - Math.sign(diffX)
 }
 
-let count = 0
 file.on('line', (line) => {
-  if (line !== '') {
-    const [direction, stepsStr] = line.split(' ')
-    console.log(line)
-    const steps = +stepsStr
-    for (let i = 1; i <= steps; i += 1) {
-      if (direction === 'U') {
-        ropePositions[0][0] -= 1
-      } else if (direction === 'D') {
-        ropePositions[0][0] += 1
-      } else if (direction === 'L') {
-        ropePositions[0][1] -= 1
-      } else if (direction === 'R') {
-        ropePositions[0][1] += 1
-      }
-
-      for (let j = 1; j < ropePositions.length; j++) {
-        updateTailPos(ropePositions[j - 1], ropePositions[j])
-      }
-      markOnGrid()
+  const [direction, steps] = line.split(' ')
+  for (let i = 1; i <= +steps; i += 1) {
+    if (direction === 'U') {
+      ropePositions[0][0] -= 1
+    } else if (direction === 'D') {
+      ropePositions[0][0] += 1
+    } else if (direction === 'L') {
+      ropePositions[0][1] -= 1
+    } else if (direction === 'R') {
+      ropePositions[0][1] += 1
     }
+
+    for (let j = 1; j < ropePositions.length; j++) {
+      updateTailPos(ropePositions[j - 1], ropePositions[j])
+    }
+    markOnGrid()
   }
-  count += 1
 })
 
 file.on('close', () => {
-  console.log('Done')
-  let hashCount = 0
+  let tailPositionCount = 0
   grid.forEach(row => {
     row.forEach(item => {
       if (item === '#') {
-        hashCount += 1
+        tailPositionCount += 1
       }
     })
   })
-  console.log('count', hashCount)
+  console.log('Part 2: number of tail positions', tailPositionCount)
 })

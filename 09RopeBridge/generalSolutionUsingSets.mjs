@@ -3,7 +3,7 @@ import readline from 'readline'
 
 var file = readline.createInterface({
     input: fs.createReadStream('./input.txt')
-  });
+});
 
 const KNOTS = 10
 
@@ -26,27 +26,25 @@ const updateTailPos = function(prev, next) {
 }
 
 file.on('line', (line) => {
-  if (line !== '') {
-    const [direction, steps] = line.split(' ')
-    for (let i = 1; i <= +steps; i += 1) {
-      if (direction === 'U') {
-        ropePositions[0][0] -= 1
-      } else if (direction === 'D') {
-        ropePositions[0][0] += 1
-      } else if (direction === 'L') {
-        ropePositions[0][1] -= 1
-      } else if (direction === 'R') {
-        ropePositions[0][1] += 1
-      }
-
-      for (let j = 1; j < ropePositions.length; j++) {
-        updateTailPos(ropePositions[j - 1], ropePositions[j])
-      }
-      tailPositions.add(JSON.stringify(ropePositions.at(-1)))
+  const [direction, steps] = line.split(' ')
+  for (let i = 1; i <= +steps; i += 1) {
+    if (direction === 'U') {
+      ropePositions[0][0] -= 1
+    } else if (direction === 'D') {
+      ropePositions[0][0] += 1
+    } else if (direction === 'L') {
+      ropePositions[0][1] -= 1
+    } else if (direction === 'R') {
+      ropePositions[0][1] += 1
     }
+
+    for (let j = 1; j < ropePositions.length; j++) {
+      updateTailPos(ropePositions[j - 1], ropePositions[j])
+    }
+    tailPositions.add(JSON.stringify(ropePositions.at(-1)))
   }
 })
 
 file.on('close', () => {
-  console.log('count', tailPositions.size)
+  console.log('Number of tail positions =', tailPositions.size)
 })

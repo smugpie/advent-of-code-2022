@@ -17,16 +17,14 @@ const incrementCycle = function() {
 }
 
 file.on('line', (line) => {
-  if (line !== '') {
-    const [instruction, value] = line.split(' ')
+  const [instruction, value] = line.split(' ')
+  incrementCycle()
+  if (instruction === 'addx') {
     incrementCycle()
-    if (instruction === 'addx') {
-      incrementCycle()
-      x += +value
-    }
+    x += +value
   }
 })
 
 file.on('close', () => {
-  console.log('Done', total)
+  console.log('Part 1: cycle score =', total)
 })

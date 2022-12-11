@@ -32,11 +32,6 @@ const markOnGrid = function() {
 }
 
 const updateTailPos = function() {
-  // touching? do nothing
-  if (headPos[0] === tailPos[0] && headPos[1] === tailPos[1]) {
-    return
-  }
-
   const diffY = tailPos[0] - headPos[0]
   const diffX = tailPos[1] - headPos[1]
   // just one away? do nothing
@@ -48,44 +43,32 @@ const updateTailPos = function() {
   tailPos[1] = tailPos[1] - Math.sign(diffX)
 }
 
-let count = 0
 file.on('line', (line) => {
-  if (line !== '' && count < 10) {
-    const [direction, stepsStr] = line.split(' ')
-    console.log(line)
-    const steps = +stepsStr
-    for (let i = 1; i <= steps; i += 1) {
-      if (direction === 'U') {
-        headPos[0] -= 1
-      } else if (direction === 'D') {
-        headPos[0] += 1
-      } else if (direction === 'L') {
-        headPos[1] -= 1
-      } else if (direction === 'R') {
-        headPos[1] += 1
-      }
-
-      updateTailPos()
-      console.log(headPos, tailPos)
-      markOnGrid()
-      console.log('---------------')
-      grid.forEach(row => console.log(row.join('')))
+  const [direction, steps] = line.split(' ')
+  for (let i = 1; i <= +steps; i += 1) {
+    if (direction === 'U') {
+      headPos[0] -= 1
+    } else if (direction === 'D') {
+      headPos[0] += 1
+    } else if (direction === 'L') {
+      headPos[1] -= 1
+    } else if (direction === 'R') {
+      headPos[1] += 1
     }
+
+    updateTailPos()
+    markOnGrid()
   }
-  count += 1
 })
 
 file.on('close', () => {
-  console.log('Done')
-  let hashCount = 0
+  let tailPositionCount = 0
   grid.forEach(row => {
-    console.log(row)
     row.forEach(item => {
       if (item === '#') {
-        hashCount += 1
+        tailPositionCount += 1
       }
     })
   })
-  console.log('count', hashCount)
-  console.log(headPos, tailPos)
+  console.log('Part 1: number of tail positions', tailPositionCount)
 })
