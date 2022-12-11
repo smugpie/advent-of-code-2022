@@ -5,14 +5,12 @@ const folders = {}
 let currentDir = []
 
 const getFolderObj = function(currentDir) {
-  let obj = folders
-  currentDir.forEach(dir => obj = obj[dir])
-  return obj
+  return currentDir.reduce((acc, cur) => acc[cur], folders)
 }
 
 var file = readline.createInterface({
     input: fs.createReadStream('./input.txt')
-  });
+});
 
 file.on('line', (line) => {
   if (line.charAt(0) === '$') {
@@ -29,11 +27,7 @@ file.on('line', (line) => {
   } else {
     const [size, name] = line.split(' ')
     const folderObj = getFolderObj(currentDir)
-    if (size === 'dir') {
-      folderObj[name] = {}
-    } else {
-      folderObj[name] = parseInt(size, 10)
-    }
+    folderObj[name] = size === 'dir' ? {} : +size
   }
 })
 
@@ -66,5 +60,5 @@ const getClosestFolderSize = function(folder) {
 file.on('close', () => {
   getFolderSize(folders)
   getClosestFolderSize(folders)
-  console.log('Done', closestFolderSize)
+  console.log('Part 2: closest folder size =', closestFolderSize)
 })

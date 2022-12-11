@@ -3,22 +3,17 @@ import readline from 'readline'
 
 var file = readline.createInterface({
     input: fs.createReadStream('./input.txt')
-  });
+});
 
 const grid = []
 
 file.on('line', (line) => {
-  if (line !== '') {
-    grid.push(line.split('').map(num => parseInt(num, 10)))    
-  }
+  grid.push(line.split('').map(num => +num))    
 })
 
 const getScenicScoreInDirection = function(test, arr) {
   const firstBigTree = arr.findIndex(el => el >= test)
-  if (firstBigTree === -1) {
-    return arr.length
-  }
-  return firstBigTree + 1
+  return (firstBigTree === -1) ? arr.length : firstBigTree + 1
 }
 
 const getScenicScore = function(grid, i, j) {
@@ -50,7 +45,6 @@ const getScenicScore = function(grid, i, j) {
 
   const bottomScenicScore = getScenicScoreInDirection(test, bottomArr)
   const totalScenicScore = leftScenicScore * rightScenicScore * topScenicScore * bottomScenicScore;
-  console.log(totalScenicScore)
   return totalScenicScore
 }
 
@@ -62,5 +56,5 @@ file.on('close', () => {
        scenicScore = Math.max(scenicScore, getScenicScore(grid, i, j))
     }
   }
-  console.log('scenic score', scenicScore)
+  console.log('Part 2: scenic score =', scenicScore)
 })

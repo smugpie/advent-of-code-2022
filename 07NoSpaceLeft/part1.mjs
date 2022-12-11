@@ -5,15 +5,12 @@ const folders = {}
 let currentDir = []
 
 const getFolderObj = function(currentDir) {
-  let obj = folders
-  currentDir.forEach(dir => obj = obj[dir])
-  console.log('setting', obj)
-  return obj
+  return currentDir.reduce((acc, cur) => acc[cur], folders)
 }
 
 var file = readline.createInterface({
     input: fs.createReadStream('./input.txt')
-  });
+});
 
 file.on('line', (line) => {
   if (line.charAt(0) === '$') {
@@ -30,19 +27,15 @@ file.on('line', (line) => {
   } else {
     const [size, name] = line.split(' ')
     const folderObj = getFolderObj(currentDir)
-    if (size === 'dir') {
-      folderObj[name] = {}
-    } else {
-      folderObj[name] = parseInt(size, 10)
-    }
+    folderObj[name] = size === 'dir' ? {} : +size
   }
 })
 
-const getFolderSize = function(folder) {
+const calculateFolderSize = function(folder) {
   let size = 0;
   for (const [key, value] of Object.entries(folder)) {
     if (typeof value === 'object') {
-      size += getFolderSize(folder[key])
+      size += calculateFolderSize(folder[key])
     } else if (key !== 'SIZE') {
       size += value
     }
@@ -58,15 +51,13 @@ const sumFolderSizes = function(folder) {
     if (typeof value === 'object') {
       sumFolderSizes(folder[key])
     } else if (key === 'SIZE' && folder.SIZE <= 100000) {
-      console.log('hello')
       sumOfFolderSizes += folder.SIZE
     }
   }
 }
 
 file.on('close', () => {
-  getFolderSize(folders)
+  calculateFolderSize(folders)
   sumFolderSizes(folders)
-  console.log(JSON.stringify(folders))
-    console.log('Done', sumOfFolderSizes)
+  console.log('Part 1: sum of folder sizes =', sumOfFolderSizes)
 })

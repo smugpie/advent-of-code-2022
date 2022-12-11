@@ -3,15 +3,13 @@ import readline from 'readline'
 
 var file = readline.createInterface({
     input: fs.createReadStream('./input.txt')
-  });
+});
 
 const grid = []
 let visibleCount = 0
 
 file.on('line', (line) => {
-  if (line !== '') {
-    grid.push(line.split('').map(num => parseInt(num, 10)))    
-  }
+    grid.push(line.split('').map(num => +num))    
 })
 
 const allSmaller = (test, arr) => test > Math.max(...arr)
@@ -60,5 +58,5 @@ file.on('close', () => {
        }
     }
   }
-  console.log('visible count', visibleCount)
+  console.log('Part 1: count of visible trees =', visibleCount)
 })

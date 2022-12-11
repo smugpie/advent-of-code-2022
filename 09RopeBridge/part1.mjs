@@ -3,7 +3,7 @@ import readline from 'readline'
 
 var file = readline.createInterface({
     input: fs.createReadStream('./input.txt')
-  });
+});
 
 let grid = [["#"]]
 let headPos = [0, 0]
