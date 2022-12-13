@@ -7,7 +7,7 @@ var file = readline.createInterface({
 
 const grid = []
 const originalGrid = []
-let optimalRoutes = []
+let minimumRouteDistances = []
 const pathsToCheck = []
 let optimalRoute = []
 
@@ -20,13 +20,10 @@ file.on('line', (line) => {
     if (loc === 'S') {
       return 97
     }
-    if (loc == 'E') {
-      return 'E'
-    }
-    return loc.charCodeAt(0)
+    return loc === 'E' ? 'E' : loc.charCodeAt(0)
   }))
   originalGrid.push(line.split(''))
-  optimalRoutes.push(new Array(line.length))
+  minimumRouteDistances.push(new Array(line.length))
 })
 
 const checkPaths = function() {
@@ -71,8 +68,8 @@ const checkNewPath = function(path, newY, newX, currentValue) {
   if (newValue - currentValue <= 1) {
     // have we found a shorter route than one we have already? great!
     const updatedPath = [...path, [newY, newX]]
-    if (typeof optimalRoutes[newY][newX] === 'undefined' || optimalRoutes[newY][newX] > updatedPath.length) {
-      optimalRoutes[newY][newX] = updatedPath
+    if (typeof minimumRouteDistances[newY][newX] === 'undefined' || minimumRouteDistances[newY][newX] > updatedPath.length) {
+      minimumRouteDistances[newY][newX] = updatedPath.length
       pathsToCheck.push(updatedPath)
     } 
     
@@ -83,7 +80,6 @@ const registerOptimalRoute = function(path) {
   if (optimalRoute.length === 0 || path.length < optimalRoute.length) {
     optimalRoute = [...path]
   }
-  
 }
 
 file.on('close', () => {
