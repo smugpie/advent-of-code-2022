@@ -36,6 +36,7 @@ export function dropSand(grid, x, y) {
       y += 1
       x += 1
     } else {
+      // and if that's not possible, come to a halt
       grid[y][x] = 'o'
       return
     }
