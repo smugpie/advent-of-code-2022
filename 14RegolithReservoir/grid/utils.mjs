@@ -1,6 +1,7 @@
 export function populateGrid(rockLayout, grid) {
   rockLayout.forEach((row) => {
-    const [[x, y], ...rest] = row
+    const [first, ...rest] = row
+    let [x, y] = first
     grid[y][x] = '#'
     rest.forEach(([nextX, nextY]) => {
       if (y == nextY) {

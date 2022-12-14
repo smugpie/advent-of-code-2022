@@ -3,7 +3,7 @@ import readline from 'readline'
 import { populateGrid, dropSand } from './utils.mjs'
 
 var file = readline.createInterface({
-  input: fs.createReadStream('./input.txt')
+  input: fs.createReadStream('../input.txt')
 })
 
 const rockLayout = []
@@ -30,14 +30,15 @@ file.on('close', () => {
 
   // not happy with creating an array 500 units long but anyway
   for (let i = 0; i <= yMax + 1; i += 1) {
-    grid.push(new Array(xMax + 10).fill(' '))
+    grid.push(new Array(xMax + 200).fill(' '))
   }
 
   populateGrid(rockLayout, grid)
+  grid[yMax + 2] = new Array(xMax + 200).fill('#')
 
   while (dropSand(grid, 500, 0) !== 'limit') {
     unitsOfSand += 1
   }
 
-  console.log('Part 1: units of sand that start dropping =', unitsOfSand)
+  console.log('Part 2: units of sand that reach the top =', unitsOfSand)
 })
