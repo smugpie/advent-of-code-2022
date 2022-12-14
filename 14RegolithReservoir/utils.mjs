@@ -1,9 +1,8 @@
 export function populateGrid(rockLayout, grid) {
   rockLayout.forEach((row) => {
-    const currentLocation = row[0]
+    const [currentLocation, ...rest] = row
     let [x, y] = currentLocation
     grid[y][x] = '#'
-    const rest = row.slice(1)
     rest.forEach(([nextX, nextY]) => {
       if (y == nextY) {
         const direction = Math.sign(nextX - x)
