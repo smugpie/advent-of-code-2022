@@ -2,8 +2,8 @@ import fs from 'fs'
 import readline from 'readline'
 
 var file = readline.createInterface({
-    input: fs.createReadStream('./input.txt')
-});
+  input: fs.createReadStream('./input.txt')
+})
 
 const signals = []
 
@@ -19,7 +19,7 @@ file.on('line', (line) => {
   currentPair.push(JSON.parse(line))
 })
 
-const compare = function(l, r) {
+const compare = function (l, r) {
   // if left side or right side ran out of items
   if (typeof l === 'undefined') {
     return true
@@ -38,14 +38,14 @@ const compare = function(l, r) {
     return null
   }
   // otherwise convert to arrays
-  const lArray = (Array.isArray(l) ? [...l] : [l])
-  const rArray = (Array.isArray(r) ? [...r] : [r])
+  const lArray = Array.isArray(l) ? [...l] : [l]
+  const rArray = Array.isArray(r) ? [...r] : [r]
 
   while (lArray.length > 0 || rArray.length > 0) {
-    const result = compare(lArray.shift(), rArray.shift()) 
+    const result = compare(lArray.shift(), rArray.shift())
     if (result !== null) {
       return result
-    }    
+    }
   }
   return null
 }

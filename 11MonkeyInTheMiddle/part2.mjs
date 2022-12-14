@@ -1,11 +1,10 @@
-
 import fs from 'fs'
 import readline from 'readline'
-import Monkey from './Monkey.mjs';
+import Monkey from './Monkey.mjs'
 
 var file = readline.createInterface({
-    input: fs.createReadStream('./input.txt')
-  });
+  input: fs.createReadStream('./input.txt')
+})
 
 const monkeys = []
 let currentMonkey
@@ -24,7 +23,7 @@ file.on('line', (line) => {
     return
   }
   if (input[2] === 'Starting') {
-    currentMonkey.items = input.slice(4).map(item => parseInt(item, 10))
+    currentMonkey.items = input.slice(4).map((item) => parseInt(item, 10))
   }
   if (input[2] === 'Operation:') {
     currentMonkey.operator = input[6]
@@ -43,10 +42,10 @@ file.on('line', (line) => {
 
 file.on('close', () => {
   monkeys.push(currentMonkey)
-  monkeys.forEach(monkey => {
-    monkey.items = monkey.items.map(item => {
+  monkeys.forEach((monkey) => {
+    monkey.items = monkey.items.map((item) => {
       const expandedItems = []
-      monkeys.forEach(m => {
+      monkeys.forEach((m) => {
         expandedItems.push(item % m.divisibleBy)
       })
       return expandedItems
@@ -57,9 +56,11 @@ file.on('close', () => {
     monkeys.forEach((monkey) => {
       while (monkey.items.length > 0) {
         let currentItem = monkey.items.shift()
-        let inspectedItem = currentItem.map(item => monkey.performOperation(item))
-        monkeys.forEach(m => {
-          inspectedItem[m.index] = (inspectedItem[m.index] % m.divisibleBy)
+        let inspectedItem = currentItem.map((item) =>
+          monkey.performOperation(item)
+        )
+        monkeys.forEach((m) => {
+          inspectedItem[m.index] = inspectedItem[m.index] % m.divisibleBy
         })
 
         let reliefItem = inspectedItem
@@ -69,6 +70,11 @@ file.on('close', () => {
       }
     })
   }
-  const [largest, secondLargest] = monkeys.map(monkey => monkey.numberOfInspections).sort((a, b) => Math.sign(b - a))
-  console.log('Part 2: two largest numbers of inspections:', largest * secondLargest)
+  const [largest, secondLargest] = monkeys
+    .map((monkey) => monkey.numberOfInspections)
+    .sort((a, b) => Math.sign(b - a))
+  console.log(
+    'Part 2: two largest numbers of inspections:',
+    largest * secondLargest
+  )
 })

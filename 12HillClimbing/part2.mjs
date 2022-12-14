@@ -4,8 +4,8 @@ import fs from 'fs'
 import readline from 'readline'
 
 var file = readline.createInterface({
-    input: fs.createReadStream('./input.txt')
-});
+  input: fs.createReadStream('./input.txt')
+})
 
 const grid = []
 let minimumRouteDistances = []
@@ -17,18 +17,20 @@ file.on('line', (line) => {
   if (startExistsInRow !== -1) {
     pathsToCheck.push([[grid.length, startExistsInRow]])
   }
-  grid.push(line.split('').map((loc) => {
-    if (loc === 'S') {
-      return 97
-    }
-    if (loc == 'E') {
-      return 'E'
-    }
-    return loc.charCodeAt(0)
-  }))
+  grid.push(
+    line.split('').map((loc) => {
+      if (loc === 'S') {
+        return 97
+      }
+      if (loc == 'E') {
+        return 'E'
+      }
+      return loc.charCodeAt(0)
+    })
+  )
 })
 
-const checkPaths = function() {
+const checkPaths = function () {
   while (pathsToCheck.length > 0) {
     const currentPath = pathsToCheck.shift()
     addNewPaths(currentPath)
@@ -36,13 +38,13 @@ const checkPaths = function() {
   return optimalRoute
 }
 
-const addNewPaths = function(path) {
+const addNewPaths = function (path) {
   const [y, x] = path.at(-1)
   const currentValue = grid[y][x]
-    // up
-    if (y > 0) {
-      checkNewPath(path, y - 1, x, currentValue) 
-    }
+  // up
+  if (y > 0) {
+    checkNewPath(path, y - 1, x, currentValue)
+  }
   // left
   if (x > 0) {
     checkNewPath(path, y, x - 1, currentValue)
@@ -52,13 +54,13 @@ const addNewPaths = function(path) {
     checkNewPath(path, y, x + 1, currentValue)
   }
 
- // down
+  // down
   if (y < grid.length - 1) {
-    checkNewPath(path, y + 1, x, currentValue) 
+    checkNewPath(path, y + 1, x, currentValue)
   }
 }
 
-const checkNewPath = function(path, newY, newX, currentValue) {
+const checkNewPath = function (path, newY, newX, currentValue) {
   const newValue = grid[newY][newX]
 
   // have we reached the end
@@ -70,14 +72,17 @@ const checkNewPath = function(path, newY, newX, currentValue) {
   if (newValue - currentValue <= 1) {
     // have we found a shorter route than one we have already? great!
     const updatedPath = [...path, [newY, newX]]
-    if (typeof minimumRouteDistances[newY][newX] === 'undefined' || minimumRouteDistances[newY][newX] > updatedPath.length) {
+    if (
+      typeof minimumRouteDistances[newY][newX] === 'undefined' ||
+      minimumRouteDistances[newY][newX] > updatedPath.length
+    ) {
       minimumRouteDistances[newY][newX] = updatedPath.length
       pathsToCheck.push(updatedPath)
-    } 
+    }
   }
 }
 
-const registerOptimalRoute = function(path) {
+const registerOptimalRoute = function (path) {
   if (optimalRoute.length === 0 || path.length < optimalRoute.length) {
     optimalRoute = [...path]
   }
@@ -89,9 +94,11 @@ file.on('close', () => {
       if (grid[y][x] === 97) {
         pathsToCheck = [[[y, x]]]
         minimumRouteDistances = []
-        grid.forEach(() => minimumRouteDistances.push(new Array(grid[y].length)))
+        grid.forEach(() =>
+          minimumRouteDistances.push(new Array(grid[y].length))
+        )
         checkPaths()
-      } 
+      }
     }
   }
   console.log('Part 2: fewest number of moves =', optimalRoute.length - 1)

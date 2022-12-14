@@ -2,14 +2,14 @@ import fs from 'fs'
 import readline from 'readline'
 
 var file = readline.createInterface({
-    input: fs.createReadStream('./input.txt')
-  });
+  input: fs.createReadStream('./input.txt')
+})
 
 let x = 1
 let currentCycle = 0
 let total = 0
 
-const incrementCycle = function() {
+const incrementCycle = function () {
   currentCycle += 1
   if (currentCycle % 40 === 20) {
     total += x * currentCycle

@@ -2,14 +2,14 @@ import fs from 'fs'
 import readline from 'readline'
 
 var file = readline.createInterface({
-    input: fs.createReadStream('./input.txt')
-});
+  input: fs.createReadStream('./input.txt')
+})
 
-let grid = [["#"]]
+let grid = [['#']]
 let headPos = [0, 0]
 let tailPos = [0, 0]
 
-const markOnGrid = function() {
+const markOnGrid = function () {
   const yLen = grid.length
   const xLen = grid[0].length
   if (tailPos[0] > yLen - 1) {
@@ -21,17 +21,17 @@ const markOnGrid = function() {
     tailPos[0] += 1
   }
   if (tailPos[1] > xLen - 1) {
-    grid.forEach(row => row.push('.'))
+    grid.forEach((row) => row.push('.'))
   }
   if (tailPos[1] < 0) {
-    grid.forEach(row => row.unshift('.'))
+    grid.forEach((row) => row.unshift('.'))
     headPos[1] += 1
     tailPos[1] += 1
   }
   grid[tailPos[0]][tailPos[1]] = '#'
 }
 
-const updateTailPos = function() {
+const updateTailPos = function () {
   const diffY = tailPos[0] - headPos[0]
   const diffX = tailPos[1] - headPos[1]
   // just one away? do nothing
@@ -63,8 +63,8 @@ file.on('line', (line) => {
 
 file.on('close', () => {
   let tailPositionCount = 0
-  grid.forEach(row => {
-    row.forEach(item => {
+  grid.forEach((row) => {
+    row.forEach((item) => {
       if (item === '#') {
         tailPositionCount += 1
       }

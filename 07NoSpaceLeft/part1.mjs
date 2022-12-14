@@ -4,13 +4,13 @@ import readline from 'readline'
 const folders = {}
 let currentDir = []
 
-const getFolderObj = function(currentDir) {
+const getFolderObj = function (currentDir) {
   return currentDir.reduce((acc, cur) => acc[cur], folders)
 }
 
 var file = readline.createInterface({
-    input: fs.createReadStream('./input.txt')
-});
+  input: fs.createReadStream('./input.txt')
+})
 
 file.on('line', (line) => {
   if (line.charAt(0) === '$') {
@@ -22,7 +22,7 @@ file.on('line', (line) => {
         currentDir.pop()
       } else {
         currentDir.push(arg)
-      } 
+      }
     }
   } else {
     const [size, name] = line.split(' ')
@@ -31,8 +31,8 @@ file.on('line', (line) => {
   }
 })
 
-const calculateFolderSize = function(folder) {
-  let size = 0;
+const calculateFolderSize = function (folder) {
+  let size = 0
   for (const [key, value] of Object.entries(folder)) {
     if (typeof value === 'object') {
       size += calculateFolderSize(folder[key])
@@ -41,12 +41,12 @@ const calculateFolderSize = function(folder) {
     }
     folder.SIZE = size
   }
-  return size;
+  return size
 }
 
 let sumOfFolderSizes = 0
 
-const sumFolderSizes = function(folder) {
+const sumFolderSizes = function (folder) {
   for (const [key, value] of Object.entries(folder)) {
     if (typeof value === 'object') {
       sumFolderSizes(folder[key])

@@ -2,8 +2,8 @@ import fs from 'fs'
 import readline from 'readline'
 
 var file = readline.createInterface({
-    input: fs.createReadStream('./input.txt')
-});
+  input: fs.createReadStream('./input.txt')
+})
 
 const KNOTS = 10
 
@@ -13,7 +13,7 @@ for (let i = 0; i < KNOTS; i += 1) {
   ropePositions.push([0, 0])
 }
 
-const updateTailPos = function(prev, next) {
+const updateTailPos = function (prev, next) {
   const diffY = next[0] - prev[0]
   const diffX = next[1] - prev[1]
   // just one away? do nothing

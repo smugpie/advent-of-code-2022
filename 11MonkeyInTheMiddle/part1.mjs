@@ -1,10 +1,10 @@
 import fs from 'fs'
 import readline from 'readline'
-import Monkey from './Monkey.mjs';
+import Monkey from './Monkey.mjs'
 
 var file = readline.createInterface({
-    input: fs.createReadStream('./input.txt')
-});
+  input: fs.createReadStream('./input.txt')
+})
 
 const monkeys = []
 let currentMonkey
@@ -23,7 +23,7 @@ file.on('line', (line) => {
     return
   }
   if (input[2] === 'Starting') {
-    currentMonkey.items = input.slice(4).map(item => parseInt(item, 10))
+    currentMonkey.items = input.slice(4).map((item) => parseInt(item, 10))
   }
   if (input[2] === 'Operation:') {
     currentMonkey.operator = input[6]
@@ -54,6 +54,11 @@ file.on('close', () => {
     })
   }
 
-  const [largest, secondLargest] = monkeys.map(monkey => monkey.numberOfInspections).sort((a, b) => b - a)
-  console.log('Part 1: two largest numbers of inspections:', largest * secondLargest)
+  const [largest, secondLargest] = monkeys
+    .map((monkey) => monkey.numberOfInspections)
+    .sort((a, b) => b - a)
+  console.log(
+    'Part 1: two largest numbers of inspections:',
+    largest * secondLargest
+  )
 })

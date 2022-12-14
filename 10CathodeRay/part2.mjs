@@ -2,15 +2,15 @@ import fs from 'fs'
 import readline from 'readline'
 
 var file = readline.createInterface({
-    input: fs.createReadStream('./input.txt')
-});
+  input: fs.createReadStream('./input.txt')
+})
 
 let x = 1
 let currentCycle = 0
 let display = []
 let currentLine = []
 
-const incrementCycle = function() {
+const incrementCycle = function () {
   if (currentCycle % 40 === 0) {
     display.push(currentLine)
     currentLine = []
@@ -32,5 +32,5 @@ file.on('line', (line) => {
 file.on('close', () => {
   display.push(currentLine)
   console.log('Part 2: solution')
-  display.forEach(row => console.log(row.join('')))
+  display.forEach((row) => console.log(row.join('')))
 })
