@@ -23,7 +23,7 @@ export function populateGrid(rockLayout, grid) {
 
 export function dropSand(grid, x, y) {
   if (grid[y][x] === 'o') {
-    return 'limit'
+    return false
   }
   while (y < grid.length - 1) {
     // space below? drop one space further
@@ -39,8 +39,8 @@ export function dropSand(grid, x, y) {
     } else {
       // and if that's not possible, come to a halt
       grid[y][x] = 'o'
-      return
+      return true
     }
   }
-  return 'limit'
+  return false
 }

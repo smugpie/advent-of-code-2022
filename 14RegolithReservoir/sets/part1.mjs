@@ -25,7 +25,7 @@ file.on('close', () => {
 
   populateGrid(rockLayout, grid)
 
-  while (dropSand(grid, 500, 0, yMax) !== 'limit') {
+  while (dropSand(grid, 500, 0, yMax)) {
     unitsOfSand += 1
   }
 

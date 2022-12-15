@@ -30,14 +30,13 @@ file.on('close', () => {
   const xMax = xCoords.sort((a, b) => +a - +b).at(-1)
   const yMax = yCoords.sort((a, b) => +a - +b).at(-1)
 
-  // not happy with creating an array 500 units long but anyway
   for (let i = xMin - yMax; i <= xMax + yMax ; i += 1) {
     grid.add(`${yMax + 2},${i}`)
   }
 
   populateGrid(rockLayout, grid)
 
-  while (dropSand(grid, 500, 0, yMax + 2) !== 'limit') {
+  while (dropSand(grid, 500, 0, yMax + 2)) {
     unitsOfSand += 1
   }
 
