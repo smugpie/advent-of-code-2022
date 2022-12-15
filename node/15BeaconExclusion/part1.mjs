@@ -10,24 +10,25 @@ const positions = new Set()
 const beaconsAtRow = []
 
 file.on('line', (beacon) => {
-  const [, sensorX, sensorY, beaconX, beaconY] = beacon.match(
+  const matches = beacon.match(
     /Sensor at x=([0-9-]+), y=([0-9-]+): closest beacon is at x=([0-9-]+), y=([0-9-]+)/i
-  )
-  const verticalDistance = Math.abs(+sensorY - +beaconY)
-  const horizontalDistance = Math.abs(+sensorX - +beaconX)
+  ).slice(1).map(item => +item)
+  const [sensorX, sensorY, beaconX, beaconY] = matches
+  const verticalDistance = Math.abs(sensorY - beaconY)
+  const horizontalDistance = Math.abs(sensorX - beaconX)
   const distance = horizontalDistance + verticalDistance
 
   // if our row is close enough to the sensor then start plotting
-  const distanceFromCheck = Math.abs(+sensorY - rowToCheck)
+  const distanceFromCheck = Math.abs(sensorY - rowToCheck)
   if (distanceFromCheck <= distance) {
-    positions.add(+sensorX)
+    positions.add(sensorX)
     for (let i = 1; i <= Math.abs(distance - distanceFromCheck); i += 1) {
-      positions.add(+sensorX + i)
-      positions.add(+sensorX - i)
+      positions.add(sensorX + i)
+      positions.add(sensorX - i)
     }
   }
-  if (+beaconY === rowToCheck) {
-    beaconsAtRow.push(+beaconX)
+  if (beaconY === rowToCheck) {
+    beaconsAtRow.push(beaconX)
   }
 })
 
