@@ -10,7 +10,7 @@ const opponentChoices: { [key: string]: string } = {
 const outcomes: { [key: string]: number } = {
   X: 0, // lose
   Y: 3, // draw
-  Z: 6 // win
+  Z: 6  // win
 }
 
 let scores = 0

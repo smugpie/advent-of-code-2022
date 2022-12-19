@@ -1,13 +1,15 @@
 import * as fs from 'fs'
 import * as readline from 'readline'
 
-const opponentChoices: { [key: string]: string } = {
+type Choice = 'rock' | 'paper' | 'scissors'
+
+const opponentChoices: { [key in 'A' | 'B' | "C"] : Choice } = {
   A: 'rock',
   B: 'paper',
   C: 'scissors'
 }
 
-const elfChoices: { [key: string]: string } = {
+const elfChoices: { [key in 'X' | 'Y' | 'Z']: Choice } = {
   X: 'rock',
   Y: 'paper',
   Z: 'scissors'
@@ -40,8 +42,8 @@ var file = readline.createInterface({
 
 file.on('line', (game) => {
   const [opponentCode, elfCode] = game.split(' ')
-  const opponentChoice = opponentChoices[opponentCode]
-  const elfChoice = elfChoices[elfCode]
+  const opponentChoice: Choice = opponentChoices[opponentCode]
+  const elfChoice: Choice = elfChoices[elfCode]
   scores +=
     getChoiceScore(elfChoice) + getOutcomeScore(opponentChoice, elfChoice)
 })
