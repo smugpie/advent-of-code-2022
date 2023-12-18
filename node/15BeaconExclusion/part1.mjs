@@ -10,9 +10,12 @@ const positions = new Set()
 const beaconsAtRow = []
 
 file.on('line', (beacon) => {
-  const matches = beacon.match(
-    /Sensor at x=([0-9-]+), y=([0-9-]+): closest beacon is at x=([0-9-]+), y=([0-9-]+)/i
-  ).slice(1).map(item => +item)
+  const matches = beacon
+    .match(
+      /Sensor at x=([0-9-]+), y=([0-9-]+): closest beacon is at x=([0-9-]+), y=([0-9-]+)/i
+    )
+    .slice(1)
+    .map((item) => +item)
   const [sensorX, sensorY, beaconX, beaconY] = matches
   const distance = Math.abs(sensorY - beaconY) + Math.abs(sensorX - beaconX)
 
@@ -31,7 +34,7 @@ file.on('line', (beacon) => {
 })
 
 file.on('close', () => {
-  // remove location of beacons we know about  
-  beaconsAtRow.forEach(location => positions.delete(location))
+  // remove location of beacons we know about
+  beaconsAtRow.forEach((location) => positions.delete(location))
   console.log('Part 1: number of non-beacon positions =', positions.size)
 })

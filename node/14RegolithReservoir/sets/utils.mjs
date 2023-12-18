@@ -27,7 +27,7 @@ export function dropSand(grid, x, y, yMax) {
   }
   while (y < yMax) {
     // space below? drop one space further
-    if (!grid.has(`${y + 1},${x}`) ) {
+    if (!grid.has(`${y + 1},${x}`)) {
       y += 1
       // rock or sand below? drop either to the left or right
     } else if (!grid.has(`${y + 1},${x - 1}`)) {
@@ -44,4 +44,3 @@ export function dropSand(grid, x, y, yMax) {
   }
   return false
 }
-

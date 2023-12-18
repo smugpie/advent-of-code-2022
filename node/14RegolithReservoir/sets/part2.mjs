@@ -30,7 +30,7 @@ file.on('close', () => {
   const xMax = xCoords.sort((a, b) => +a - +b).at(-1)
   const yMax = yCoords.sort((a, b) => +a - +b).at(-1)
 
-  for (let i = xMin - yMax; i <= xMax + yMax ; i += 1) {
+  for (let i = xMin - yMax; i <= xMax + yMax; i += 1) {
     grid.add(`${yMax + 2},${i}`)
   }
 

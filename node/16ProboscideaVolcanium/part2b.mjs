@@ -5,7 +5,7 @@ var file = readline.createInterface({
   input: fs.createReadStream('./input.txt')
 })
 
-const TIME_AVAILABLE = 30
+const TIME_AVAILABLE = 26
 
 const valves = {}
 let valveCount = 0
@@ -47,7 +47,11 @@ const appendDistancesToValves = function() {
     })
 }
 
+//const cache = new Map()
+
 const calculatePressure = function(combo) {
+    //const s = combo.join('')
+    //if (cache.has(s)) return cache.get(s)
     let timeElapsed = 0
     let pressureReleased = 0
     for (let i = 1; i < combo.length; i += 1) {
@@ -56,25 +60,39 @@ const calculatePressure = function(combo) {
         if (timeElapsed < TIME_AVAILABLE) {
             let pressureToAdd = (TIME_AVAILABLE - timeElapsed) * valves[combo[i]].flowRate
             pressureReleased += pressureToAdd
+        } else {
+            break
         }
     }
+    //cache.set(s, pressureReleased)
+    return pressureReleased
+}
 
-    if (pressureReleased > maxPressure) {
-        maxPressure = pressureReleased
-        console.log(maxPressure, combo.join(','))
+const calculateBothPressures = function(combo) {
+    for (let i = 4; i < combo.length - 4; i += i) {
+        const myValves = combo.slice(0, i)
+        const myPressure = calculatePressure(myValves)
+        const elephantValves = ['AA', ...combo.slice(i)]
+        const elephantPressure = calculatePressure(elephantValves)
+        const pressureReleased = myPressure + elephantPressure
+        if (pressureReleased > maxPressure) {
+            maxPressure = pressureReleased
+            console.log(maxPressure, myValves.join(','), elephantValves.join(','))
+        }
     }
 }
 
 const getCombinationOfValves = function(values, builtUpValues, timeElapsed) {
-    if (values.length === 0 || timeElapsed >= TIME_AVAILABLE) {
-        calculatePressure(builtUpValues)
+    if (values.length === 0) {
+        calculateBothPressures(builtUpValues)
         return
     }
+
     for (let i = 0; i < values.length; i += 1) {
         let newBuiltUpValues = [...builtUpValues, values[i]]
-        let lastValue = builtUpValues.at(-1)
+        
         let newValues = values.filter((v, idx) => i !== idx)
-        getCombinationOfValves(newValues, newBuiltUpValues, timeElapsed + 1 + valves[lastValue].distances.get(values[i]))
+        getCombinationOfValves(newValues, newBuiltUpValues, timeElapsed)
     }
 }
 
